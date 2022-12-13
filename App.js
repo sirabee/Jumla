@@ -2,84 +2,60 @@ import HomeScreen from "./src/Screens/HomeScreen";
 import AboutUsScreen from "./src/Screens/AboutUsScreen";
 import ContactUsScreen from "./src/Screens/ContactUsScreen";
 import ProfileScreen from "./src/Screens/ProfileScreen";
+import SignInScreen from "./src/Screens/SignInScreen";
+import Navigation from "./src/Navigation/Index";
 
-import { NavigationContainer, StackActions } from "@react-navigation/native";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { ThemeProvider } from "@rneui/themed";
 import { customTheme } from "./assets/theme/Index";
 import { Ionicons } from "@expo/vector-icons";
-
+import React from "react";
 
 export default function App() {
 
-  const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator();
 
-  function userReducer (state, action){
-    switch(action.type){
-      case "ADD_USER":
-        console.log('add')
-        return state.username = {...state, username: action.payload}
-      case "REMOVE_USER":
-        console.log('remove')
-        return state.username = {...state, username: "None"}
-      default:
-        console.log('default')
-        return state
-    }
-  }
-
-  const initialState = {username: "No user is set yet"}
-
-  const store = createStore(userReducer, initialState)
-
-  return (
-    <Provider store={store}>
+  return(
+    <SafeAreaView style={styles.root}>
     <NavigationContainer>
-      <Tab.Navigator>
-      <Tab.Screen 
-      name="Home" 
+    <Stack.Navigator>
+    <Stack.Screen 
+      name="SignIn" 
+      component={SignInScreen}
+      options={{ headerShown: false }} 
+      />
+    <Stack.Screen 
+      name="Navigation" 
+      component={Navigation}
+      options={{ headerShown: false }} 
+      />
+      <Stack.Screen
+      name="Home"
       component={HomeScreen}
-      options={{
-        tabBarLabel: 'Home',
-        tabBarIcon: ({ color, size }) => (
-          <Ionicons name="home-outline" color={color} size={size}/>
-        ),
-      }}
-       />
-      <Tab.Screen 
-      name="About Us" 
+      />
+      <Stack.Screen
+      name="About Us"
       component={AboutUsScreen}
-      options={{
-        tabBarLabel: 'About Us',
-        tabBarIcon: ({ color, size }) => (
-          <Ionicons name="card-outline" color={color} size={size}/>
-        ),
-      }}
-       />
-      <Tab.Screen 
-      name="Profile" 
+      /> 
+      <Stack.Screen
+      name="Profile"
       component={ProfileScreen}
-      options={{
-        tabBarLabel: 'Profile',
-        tabBarIcon: ({ color, size }) => (
-          <Ionicons name="pricetags-outline" color={color} size={size}/>
-        ),
-      }}
-      />
-      <Tab.Screen 
-      name="Contact Us" 
-      component={ContactUsScreen}
-      options={{
-        tabBarLabel: 'Contact Us',
-        tabBarIcon: ({ color, size }) => (
-          <Ionicons name="pie-chart-outline" color={color} size={size}/>
-        ),
-      }}
-      />
-      </Tab.Navigator>
+      /> 
+    </Stack.Navigator>
     </NavigationContainer>
-    </Provider>
+    </SafeAreaView>
   );
-}
+};
+
+  const styles = StyleSheet.create({
+    root: {
+      flex: 1,
+      backgroundColor: '#f9fbfc',
+    }
+  
+  })
+

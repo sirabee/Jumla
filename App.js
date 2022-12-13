@@ -17,9 +17,28 @@ import React from "react";
 
 export default function App() {
 
+  function userReducer (state, action){
+    switch(action.type){
+      case "ADD_USER":
+        console.log('add')
+        return state.username = {...state, username: action.payload}
+      case "REMOVE_USER":
+        console.log('remove')
+        return state.username = {...state, username: "None"}
+      default:
+        console.log('default')
+        return state
+    }
+  }
+
+  const initialState = {username: "none"}
+
+  const store = createStore(userReducer, initialState)
+
 const Stack = createNativeStackNavigator();
 
   return(
+    <Provider store={store}>
     <SafeAreaView style={styles.root}>
     <NavigationContainer>
     <Stack.Navigator>
@@ -48,6 +67,7 @@ const Stack = createNativeStackNavigator();
     </Stack.Navigator>
     </NavigationContainer>
     </SafeAreaView>
+    </Provider>
   );
 };
 

@@ -4,8 +4,22 @@ import CustomInput from "../Components/CustomInputs/CustomInput";
 import CustomButton from "../Components/CustomButtons/CustomButton";
 import Logo from "../../assets/images/Logo.png";
 import { useNavigation } from "@react-navigation/native";
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import { createStore } from 'redux';
 
 export default function SignInScreen() {
+
+const user = useSelector((state) => state.username)
+
+  const dispatch = useDispatch()
+
+  function addUser(user){
+    const action = {
+      type: "ADD_USER",
+      payload: user
+    }
+    dispatch(action)
+  }
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -16,8 +30,9 @@ export default function SignInScreen() {
   
     function onSignInPressed() {
     //   console.warn("Sign in");
-
-      navigation.navigate('Home');
+    // addUser({username});
+    
+    navigation.navigate('Home');
     };
   
     function onForgotPasswordPressed() {
@@ -67,36 +82,3 @@ export default function SignInScreen() {
           maxHeight: 200,
       }
   })
-
-//     const [username, setUsername] = useState('');
-//     const [password, setPassword] = useState('');
-
-//     const {height} = useWindowDimensions();
-
-//     return(
-//         <View style={styles.root}>
-//             <CustomInput placeholder="Username" 
-//             value={username} 
-//             setValue={setUsername} 
-//             />
-//             <CustomInput 
-//             placeholder="Password" 
-//             value={password}
-//             setValue={setPassword}
-//             />
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     root: {
-//         alignItems: 'center',
-//         padding: 20,
-//         backgroundColor: '#f9fbfc',
-//     },
-//     logo: {
-//         width: '70%',
-//         maxWidth: 300,
-//         maxHeight: 200,
-//     }
-// })
